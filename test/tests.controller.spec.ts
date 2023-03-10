@@ -31,21 +31,7 @@ describe('AppController', () => {
       await seedComments(server, constants.variables.accessTokens[1], constants.variables.createdGoodDeeds[1]._id)
     });
 
-    it('find all blogs', async () => {
-      /*constants.variables.setQuery(generatePagination(constants.variables.createdBlogs.length))
-      const blogs = await request(server).get(`/blogger/blogs${generateQueryPagination(constants.variables.query)}`)
-        .set('Authorization', `Bearer ${constants.variables.accessTokens[0]}`)
-      
-      expect(blogs.body).toStrictEqual({
-        page: constants.variables.query.pageNumber,
-        pageSize: constants.variables.query.pageSize,
-        pagesCount: Math.ceil(constants.variables.createdBlogs.length / constants.variables.query.pageSize),
-        totalCount: constants.variables.createdBlogs.length,
-        items: slicedEntityArray(constants.variables.createdBlogs, constants.variables.query),
-      })*/
-    });
-
-    it('update specific comment', async () => {
+    it('find good deeds by user', async () => {
       await request(server).get(`/gooddeeds`)
         .set('Authorization', `Bearer ${constants.variables.accessTokens[0]}`)
     })

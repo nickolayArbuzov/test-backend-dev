@@ -24,8 +24,8 @@ export class GoodDeedsController {
 
     @UseGuards(JwtAuthGuard)
     @Get(':id')
-    async findAllGoodDeedsByUserId(){
-        return this.queryBus.execute(new FindAllGoodDeedsByUserIdQuery())
+    async findAllGoodDeedsByUserId(@Param('id') id: string){
+        return this.queryBus.execute(new FindAllGoodDeedsByUserIdQuery(id))
     }
 
     @UseGuards(JwtAuthGuard)

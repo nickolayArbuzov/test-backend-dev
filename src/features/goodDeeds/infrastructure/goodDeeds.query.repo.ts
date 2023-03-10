@@ -12,7 +12,7 @@ export class GoodDeedQueryRepo {
 
   async findAllGoodDeedsByUserId(userId: string) {
     const result = await this.goodDeedModel.aggregate([
-      {$match: {userId: new mongoose.Types.ObjectId(userId)}},
+      {$match: {userId: new mongoose.Types.ObjectId(userId), isDeleted: false}},
       {
         $lookup: {
           from: 'comments',
@@ -27,7 +27,7 @@ export class GoodDeedQueryRepo {
 
   async findAllGoodDeedsForCurrentUser(userId: string) {
     const result = await this.goodDeedModel.aggregate([
-      {$match: {userId: new mongoose.Types.ObjectId(userId)}},
+      {$match: {userId: new mongoose.Types.ObjectId(userId), isDeleted: false}},
       {
         $lookup: {
           from: 'comments',
