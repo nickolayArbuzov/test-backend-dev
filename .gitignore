@@ -1,0 +1,15 @@
+# compiled output
+/dist
+/node_modules
+
+# env
+.env
+package-lock.json
+yarn.lock
+
+# Logs
+logs
+*.log
+
+# IDEs and editors
+/.idea
