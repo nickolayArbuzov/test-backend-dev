@@ -28,7 +28,7 @@
 
 ## Swagger-documentation is located on
 
-[Swagger-documentation](https://test-backend-dev.vercel.app/api)
+[Swagger-documentation](https://test-backend-dev.vercel.app/swagger)
 
 ## Description
 
