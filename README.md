@@ -24,7 +24,11 @@
 
 ## Deployment is located on
 
-[Vercel](https://test-backend-dev-5dtr.vercel.app)
+[Vercel](https://test-backend-dev.vercel.app)
+
+## Swagger-documentation is located on
+
+[Swagger-documentation](https://test-backend-dev.vercel.app/api)
 
 ## Description
 
