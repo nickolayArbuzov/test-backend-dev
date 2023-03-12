@@ -4,7 +4,7 @@ import { ViewUserModel } from '../../users/domain/user.types';
 import {v4} from 'uuid';
 import { UserMutationRepo } from '../../users/infrastructure/users.mutation.repo';
 import { RegistrationDto } from '../types/auth.dto';
-import { sendEmail } from '../../../adapters/mail.adapter';
+import { MailService } from '../../../adapters/mail/mail.service';
 
 export class RegistrationCommand {
   constructor(
@@ -17,6 +17,7 @@ export class RegistrationCommand {
 export class RegistrationUseCase {
   constructor(
     private userMutationRepo: UserMutationRepo,
+    private mailService: MailService,
   ) {}
 
   async execute(command: RegistrationCommand): Promise<ViewUserModel>{
@@ -38,7 +39,7 @@ export class RegistrationUseCase {
     }
 
     const createdUser = await this.userMutationRepo.createNewUser(user)
-    await sendEmail(command.source, command.newUser.email, code, 'confirm-email?code')
+    await this.mailService.sendEmail(command.source, command.newUser.email, code, 'confirm-email?code')
     return createdUser
   }
 }

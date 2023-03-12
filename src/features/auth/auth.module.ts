@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { JwtService } from '@nestjs/jwt';
+import { MailModule } from '../../adapters/mail/mail.module';
 import { JWT } from '../../helpers/jwt';
 import { UsersModule } from '../users/users.module';
 import { AuthController } from './api/auth.controller';
@@ -14,6 +15,7 @@ const commands = [ConfirmMailUseCase, LoginUseCase, LogoutUseCase, RegistrationU
 @Module({
   controllers: [AuthController],
   imports: [
+    MailModule,
     CqrsModule,
     UsersModule,
   ],

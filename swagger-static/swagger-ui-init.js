@@ -11,17 +11,6 @@ window.onload = function() {
   "swaggerDoc": {
     "openapi": "3.0.0",
     "paths": {
-      "/": {
-        "get": {
-          "operationId": "AppController_getHello",
-          "parameters": [],
-          "responses": {
-            "200": {
-              "description": ""
-            }
-          }
-        }
-      },
       "/auth/registration": {
         "post": {
           "operationId": "AuthController_registration",
@@ -38,9 +27,15 @@ window.onload = function() {
           },
           "responses": {
             "201": {
-              "description": ""
+              "description": "The record has been successfully created."
+            },
+            "400": {
+              "description": "Sending incorrect data."
             }
-          }
+          },
+          "tags": [
+            "auth"
+          ]
         }
       },
       "/auth/confirm-mail": {
@@ -59,9 +54,15 @@ window.onload = function() {
           },
           "responses": {
             "201": {
-              "description": ""
+              "description": "The record has been successfully created."
+            },
+            "400": {
+              "description": "Sending incorrect data."
             }
-          }
+          },
+          "tags": [
+            "auth"
+          ]
         }
       },
       "/auth/login": {
@@ -70,9 +71,18 @@ window.onload = function() {
           "parameters": [],
           "responses": {
             "201": {
-              "description": ""
+              "description": "The record has been successfully created."
+            },
+            "400": {
+              "description": "Sending incorrect data."
+            },
+            "401": {
+              "description": "Not authorized."
             }
-          }
+          },
+          "tags": [
+            "auth"
+          ]
         }
       },
       "/auth/logout": {
@@ -81,9 +91,15 @@ window.onload = function() {
           "parameters": [],
           "responses": {
             "201": {
-              "description": ""
+              "description": "The record has been successfully created."
+            },
+            "401": {
+              "description": "Not authorized."
             }
-          }
+          },
+          "tags": [
+            "auth"
+          ]
         }
       },
       "/users": {
@@ -91,10 +107,16 @@ window.onload = function() {
           "operationId": "UsersController_findAllUsers",
           "parameters": [],
           "responses": {
-            "200": {
-              "description": ""
+            "201": {
+              "description": "The record has been successfully created."
+            },
+            "401": {
+              "description": "Not authorized."
             }
-          }
+          },
+          "tags": [
+            "users"
+          ]
         },
         "put": {
           "operationId": "UsersController_updateCurrentUser",
@@ -110,19 +132,34 @@ window.onload = function() {
             }
           },
           "responses": {
-            "200": {
-              "description": ""
+            "201": {
+              "description": "The record has been successfully created."
+            },
+            "400": {
+              "description": "Sending incorrect data."
+            },
+            "401": {
+              "description": "Not authorized."
             }
-          }
+          },
+          "tags": [
+            "users"
+          ]
         },
         "delete": {
           "operationId": "UsersController_deleteCurrentUser",
           "parameters": [],
           "responses": {
             "200": {
-              "description": ""
+              "description": "Current user has been successfully deleted"
+            },
+            "401": {
+              "description": "Not authorized."
             }
-          }
+          },
+          "tags": [
+            "users"
+          ]
         }
       },
       "/users/{id}": {
@@ -140,9 +177,18 @@ window.onload = function() {
           ],
           "responses": {
             "201": {
-              "description": ""
+              "description": "The record has been successfully created."
+            },
+            "401": {
+              "description": "Not authorized."
+            },
+            "404": {
+              "description": "Not found or forbidden."
             }
-          }
+          },
+          "tags": [
+            "users"
+          ]
         }
       },
       "/comments": {
@@ -161,9 +207,18 @@ window.onload = function() {
           },
           "responses": {
             "201": {
-              "description": ""
+              "description": "The record has been successfully created."
+            },
+            "400": {
+              "description": "Sending incorrect data."
+            },
+            "401": {
+              "description": "Not authorized."
             }
-          }
+          },
+          "tags": [
+            "comments"
+          ]
         }
       },
       "/comments/{id}": {
@@ -190,10 +245,22 @@ window.onload = function() {
             }
           },
           "responses": {
-            "200": {
-              "description": ""
+            "201": {
+              "description": "The record has been successfully created."
+            },
+            "400": {
+              "description": "Sending incorrect data."
+            },
+            "401": {
+              "description": "Not authorized."
+            },
+            "404": {
+              "description": "Not found or forbidden."
             }
-          }
+          },
+          "tags": [
+            "comments"
+          ]
         },
         "delete": {
           "operationId": "CommentsController_deleteCommentById",
@@ -209,9 +276,18 @@ window.onload = function() {
           ],
           "responses": {
             "200": {
-              "description": ""
+              "description": "Comment has been successfully deleted"
+            },
+            "401": {
+              "description": "Not authorized."
+            },
+            "404": {
+              "description": "Not found or forbidden."
             }
-          }
+          },
+          "tags": [
+            "comments"
+          ]
         }
       },
       "/goodDeeds": {
@@ -219,10 +295,16 @@ window.onload = function() {
           "operationId": "GoodDeedsController_findAllGoodDeedsForCurrentUser",
           "parameters": [],
           "responses": {
-            "200": {
-              "description": ""
+            "201": {
+              "description": "The record has been successfully created."
+            },
+            "401": {
+              "description": "Not authorized."
             }
-          }
+          },
+          "tags": [
+            "goodDeeds"
+          ]
         },
         "post": {
           "operationId": "GoodDeedsController_createGoodDeed",
@@ -239,9 +321,18 @@ window.onload = function() {
           },
           "responses": {
             "201": {
-              "description": ""
+              "description": "The record has been successfully created."
+            },
+            "400": {
+              "description": "Sending incorrect data."
+            },
+            "401": {
+              "description": "Not authorized."
             }
-          }
+          },
+          "tags": [
+            "goodDeeds"
+          ]
         }
       },
       "/goodDeeds/{id}": {
@@ -258,10 +349,19 @@ window.onload = function() {
             }
           ],
           "responses": {
-            "200": {
-              "description": ""
+            "201": {
+              "description": "The record has been successfully created."
+            },
+            "401": {
+              "description": "Not authorized."
+            },
+            "404": {
+              "description": "Not found or forbidden."
             }
-          }
+          },
+          "tags": [
+            "goodDeeds"
+          ]
         },
         "put": {
           "operationId": "GoodDeedsController_updateGoodDeed",
@@ -286,10 +386,22 @@ window.onload = function() {
             }
           },
           "responses": {
-            "200": {
-              "description": ""
+            "201": {
+              "description": "The record has been successfully created."
+            },
+            "400": {
+              "description": "Sending incorrect data."
+            },
+            "401": {
+              "description": "Not authorized."
+            },
+            "404": {
+              "description": "Not found or forbidden."
             }
-          }
+          },
+          "tags": [
+            "goodDeeds"
+          ]
         },
         "delete": {
           "operationId": "GoodDeedsController_deleteGoodDeed",
@@ -305,9 +417,18 @@ window.onload = function() {
           ],
           "responses": {
             "200": {
-              "description": ""
+              "description": "GoodDeed has been successfully deleted"
+            },
+            "401": {
+              "description": "Not authorized."
+            },
+            "404": {
+              "description": "Not found or forbidden."
             }
-          }
+          },
+          "tags": [
+            "goodDeeds"
+          ]
         }
       },
       "/delete-all-data": {
@@ -316,9 +437,12 @@ window.onload = function() {
           "parameters": [],
           "responses": {
             "200": {
-              "description": ""
+              "description": "All data deleted"
             }
-          }
+          },
+          "tags": [
+            "clear data for testing"
+          ]
         }
       }
     },
