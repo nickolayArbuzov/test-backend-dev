@@ -13,8 +13,8 @@ export class LogoutUseCase {
     private userMutationRepo: UserMutationRepo,
   ) {}
 
-  execute(command: LogoutCommand){
-    this.userMutationRepo.logOutCurrentUser(command.userId)
+  async execute(command: LogoutCommand){
+    await this.userMutationRepo.logOutCurrentUser(command.userId)
     return
   }
 }

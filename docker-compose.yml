@@ -1,0 +1,28 @@
+# docker compose up
+# docker compose down
+
+version: '3.9'
+services:
+  server:
+    hostname: server
+    build: ./
+    restart: always
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+    environment:
+      MONGODB_URI: "mongodb://root:example@mongo:27017/good_deeds?authSource=admin"
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_DATABASE: good_deeds
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - ./mongodata:/data/db
+      - ./mongo_init_script/:/docker-entrypoint-initdb.d/:ro
+

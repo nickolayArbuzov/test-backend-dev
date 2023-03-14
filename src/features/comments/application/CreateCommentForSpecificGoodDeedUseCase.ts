@@ -23,6 +23,7 @@ export class CreateCommentForSpecificGoodDeedUseCase {
       userId: new mongoose.Types.ObjectId(command.userId),
       content: command.createCommentDto.content,
       createdAt: date.toISOString(),
+      updatedAt: '',
       isDeleted: false,
     }
 

@@ -3,19 +3,16 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Comment, CommentDocument } from '../domain/comment.schema';
 import { UpdateCommentDto } from '../domain/comment.dto';
+import { ViewCommentModel } from '../domain/comment.types';
 
 @Injectable()
 export class CommentsMutationRepo {
   constructor(@InjectModel(Comment.name) private commentModel: Model<CommentDocument>) {}
 
-  async createCommentForSpecificGoodDeed(comment){
+  async createCommentForSpecificGoodDeed(comment: Comment): Promise<ViewCommentModel>{
     const createdComment = new this.commentModel(comment);
     await createdComment.save();
-    return {
-      _id: createdComment._id.toString(),
-      content: createdComment.content,
-      createdAt: createdComment.createdAt,
-    }
+    return new ViewCommentModel(createdComment)
   }
 
   async updateCommentById(updateCommentDto: UpdateCommentDto, userId: string, commentId: string){

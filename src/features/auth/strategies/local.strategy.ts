@@ -15,7 +15,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(username: string, password: string): Promise<any> {
-    const auth = await this.userQueryRepo.findByLoginOrEmail(username)
+    const auth = await this.userQueryRepo.findUserByLoginOrEmail(username)
     if (!auth){
       throw new HttpException('Auth not found', HttpStatus.UNAUTHORIZED);
     }

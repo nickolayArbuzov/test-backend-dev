@@ -4,6 +4,9 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import cookieParser = require('cookie-parser');
 import { createWriteStream } from 'fs';
 import { get } from 'http';
+import { useContainer } from 'class-validator';
+import { BadRequestException, ValidationPipe } from '@nestjs/common';
+import { HttpExceptionFilter } from './helpers/http-exeption.filter';
 
 const PORT = process.env.PORT || 5000;
 const serverUrl = `http://localhost:${PORT}`
@@ -14,6 +17,25 @@ async function bootstrap() {
     origin: ['http://localhost:3000'],
     credentials: true
   }})
+  useContainer(app.select(AppModule), { fallbackOnErrors: true });
+  app.useGlobalPipes(new ValidationPipe({
+    stopAtFirstError: true,
+    transform: true,
+    exceptionFactory: (errors) => {
+      const customErrors = [];
+      errors.forEach(e => {
+        const keys = Object.keys(e.constraints)
+        keys.forEach(k => {
+          customErrors.push({
+            message: e.constraints[k],
+            field: e.property,
+          })
+        })
+      })
+      throw new BadRequestException(customErrors)
+    }
+  }))
+  app.useGlobalFilters(new HttpExceptionFilter())
   app.use(cookieParser());
 
   const config = new DocumentBuilder()

@@ -20,4 +20,5 @@ export class UpdateGoodDeedUseCase {
     this.goodDeedMutationRepo.updateGoodDeed(command.updateGoodDeedDto, command.userId, command.goodDeedId)
     return 
   }
+
 }

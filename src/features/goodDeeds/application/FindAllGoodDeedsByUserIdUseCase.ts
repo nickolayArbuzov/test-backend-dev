@@ -1,9 +1,11 @@
 import { QueryHandler } from '@nestjs/cqrs';
+import { PaginatorDto } from '../../../helpers/common/types/paginator.dto';
 import { GoodDeedQueryRepo } from '../infrastructure/goodDeeds.query.repo';
 
 export class FindAllGoodDeedsByUserIdQuery {
   constructor(
     public userId: string,
+    public query: PaginatorDto,
   ) {}
 }
 
@@ -13,8 +15,12 @@ export class FindAllGoodDeedsByUserIdUseCase {
     private goodDeedQueryRepo: GoodDeedQueryRepo,
   ) {}
 
-  execute(query: FindAllGoodDeedsByUserIdQuery){
-    this.goodDeedQueryRepo.findAllGoodDeedsByUserId(query.userId)
+  async execute(query: FindAllGoodDeedsByUserIdQuery){
+    const queryParams = {
+      pageNumber: query.query.pageNumber || '1',
+      pageSize: query.query.pageSize || '10',
+    }
+    await this.goodDeedQueryRepo.findAllGoodDeedsByUserId(query.userId, queryParams)
     return 
   }
 }

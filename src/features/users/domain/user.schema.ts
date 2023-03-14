@@ -31,7 +31,10 @@ export class User {
   friends: string[];
 
   @Prop()
-  tokenDate: number;
+  accessTokenDate: number;
+
+  @Prop()
+  refreshTokenDate: number;
 
   @Prop()
   rating: number;

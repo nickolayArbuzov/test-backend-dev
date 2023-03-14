@@ -8,9 +8,10 @@ import { AuthController } from './api/auth.controller';
 import { ConfirmMailUseCase } from './application/ConfirmMailUseCase';
 import { LoginUseCase } from './application/LoginUseCase';
 import { LogoutUseCase } from './application/LogoutUseCase';
+import { RefreshTokensUseCase } from './application/RefreshTokensUseCase';
 import { RegistrationUseCase } from './application/RegistrationUseCase';
 
-const commands = [ConfirmMailUseCase, LoginUseCase, LogoutUseCase, RegistrationUseCase]
+const commands = [ConfirmMailUseCase, LoginUseCase, LogoutUseCase, RegistrationUseCase, RefreshTokensUseCase]
 
 @Module({
   controllers: [AuthController],

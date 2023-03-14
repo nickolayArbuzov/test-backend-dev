@@ -9,14 +9,10 @@ import { UpdateGoodDeedDto } from '../domain/goodDeed.dto';
 export class GoodDeedMutationRepo {
   constructor(@InjectModel(GoodDeed.name) private goodDeedModel: Model<GoodDeedDocument>) {}
 
-  async createGoodDeed(goodDeed): Promise<ViewGoodDeedModel> {
+  async createGoodDeed(goodDeed: GoodDeed): Promise<ViewGoodDeedModel> {
     const createdGoodDeed = new this.goodDeedModel(goodDeed);
     await createdGoodDeed.save();
-    return {
-      _id: createdGoodDeed._id.toString(),
-      title: createdGoodDeed.title,
-      createdAt: createdGoodDeed.createdAt,
-    }
+    return new ViewGoodDeedModel(createdGoodDeed)
   }
 
   async updateGoodDeed(updateGoodDeedDto: UpdateGoodDeedDto, userId: string, commentId: string) {

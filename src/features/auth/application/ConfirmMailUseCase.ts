@@ -4,7 +4,7 @@ import { RegistrationConfirmationDto } from '../types/auth.dto';
 
 export class ConfirmMailCommand {
   constructor(
-    
+    public registrationConfirmationDto: RegistrationConfirmationDto
   ) {}
 }
 
@@ -14,7 +14,8 @@ export class ConfirmMailUseCase {
     private userMutationRepo: UserMutationRepo,
   ) {}
 
-  execute(){
+  async execute(command: ConfirmMailCommand){
+    await this.userMutationRepo.registrationConfirmation(command.registrationConfirmationDto.code)
     return
   }
 }

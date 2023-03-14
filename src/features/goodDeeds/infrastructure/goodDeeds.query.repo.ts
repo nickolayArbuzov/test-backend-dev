@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { GoodDeed, GoodDeedDocument } from '../domain/goodDeed.schema';
 import { Comment, CommentDocument } from '../../comments/domain/comment.schema';
+import { PaginatorDto } from '../../../helpers/common/types/paginator.dto';
 
 @Injectable()
 export class GoodDeedQueryRepo {
@@ -10,7 +11,7 @@ export class GoodDeedQueryRepo {
     @InjectModel(GoodDeed.name) private goodDeedModel: Model<GoodDeedDocument>
   ) {}
 
-  async findAllGoodDeedsByUserId(userId: string) {
+  async findAllGoodDeedsByUserId(userId: string, query: PaginatorDto) {
     const result = await this.goodDeedModel.aggregate([
       {$match: {userId: new mongoose.Types.ObjectId(userId), isDeleted: false}},
       {
@@ -25,7 +26,7 @@ export class GoodDeedQueryRepo {
     return result
   }
 
-  async findAllGoodDeedsForCurrentUser(userId: string) {
+  async findAllGoodDeedsForCurrentUser(userId: string, query: PaginatorDto) {
     const result = await this.goodDeedModel.aggregate([
       {$match: {userId: new mongoose.Types.ObjectId(userId), isDeleted: false}},
       {

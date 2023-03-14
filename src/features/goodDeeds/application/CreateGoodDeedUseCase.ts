@@ -23,6 +23,7 @@ export class CreateGoodDeedUseCase {
       userId: new mongoose.Types.ObjectId(command.userId),
       title: command.createGoodDeedDto.title,
       createdAt: date.toISOString(),
+      updatedAt: '',
       isDone: false,
       isDeleted: false,
     }

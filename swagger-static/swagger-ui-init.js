@@ -27,10 +27,38 @@ window.onload = function() {
           },
           "responses": {
             "201": {
-              "description": "The record has been successfully created."
+              "description": "The user has been successfully registrated.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ViewUserModel"
+                  }
+                }
+              }
             },
             "400": {
-              "description": "Sending incorrect data."
+              "description": "",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/Errored"
+                      },
+                      {
+                        "properties": {
+                          "errorMessages": {
+                            "type": "array",
+                            "items": {
+                              "$ref": "#/components/schemas/ErrorSwagger"
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
             }
           },
           "tags": [
@@ -54,10 +82,31 @@ window.onload = function() {
           },
           "responses": {
             "201": {
-              "description": "The record has been successfully created."
+              "description": "The mail has been successfully confirmed."
             },
             "400": {
-              "description": "Sending incorrect data."
+              "description": "",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/Errored"
+                      },
+                      {
+                        "properties": {
+                          "errorMessages": {
+                            "type": "array",
+                            "items": {
+                              "$ref": "#/components/schemas/ErrorSwagger"
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
             }
           },
           "tags": [
@@ -69,12 +118,43 @@ window.onload = function() {
         "post": {
           "operationId": "AuthController_login",
           "parameters": [],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthDto"
+                }
+              }
+            }
+          },
           "responses": {
             "201": {
-              "description": "The record has been successfully created."
+              "description": "The user has been successfully login."
             },
             "400": {
-              "description": "Sending incorrect data."
+              "description": "",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/Errored"
+                      },
+                      {
+                        "properties": {
+                          "errorMessages": {
+                            "type": "array",
+                            "items": {
+                              "$ref": "#/components/schemas/ErrorSwagger"
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
             },
             "401": {
               "description": "Not authorized."
@@ -82,6 +162,28 @@ window.onload = function() {
           },
           "tags": [
             "auth"
+          ]
+        }
+      },
+      "/auth/refresh-token": {
+        "post": {
+          "operationId": "AuthController_refreshTokens",
+          "parameters": [],
+          "responses": {
+            "201": {
+              "description": "The user has been successfully refresh tokens."
+            },
+            "401": {
+              "description": "Not authorized."
+            }
+          },
+          "tags": [
+            "auth"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
           ]
         }
       },
@@ -91,7 +193,7 @@ window.onload = function() {
           "parameters": [],
           "responses": {
             "201": {
-              "description": "The record has been successfully created."
+              "description": "The user has been successfully logout."
             },
             "401": {
               "description": "Not authorized."
@@ -99,16 +201,61 @@ window.onload = function() {
           },
           "tags": [
             "auth"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
           ]
         }
       },
       "/users": {
         "get": {
           "operationId": "UsersController_findAllUsers",
-          "parameters": [],
+          "parameters": [
+            {
+              "name": "pageNumber",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "default": "1",
+                "type": "string"
+              }
+            },
+            {
+              "name": "pageSize",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "default": "10",
+                "type": "string"
+              }
+            }
+          ],
           "responses": {
-            "201": {
-              "description": "The record has been successfully created."
+            "200": {
+              "description": "",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/Paginated"
+                      },
+                      {
+                        "properties": {
+                          "items": {
+                            "type": "array",
+                            "items": {
+                              "$ref": "#/components/schemas/ViewUserModel"
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
             },
             "401": {
               "description": "Not authorized."
@@ -116,6 +263,11 @@ window.onload = function() {
           },
           "tags": [
             "users"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
           ]
         },
         "put": {
@@ -132,11 +284,32 @@ window.onload = function() {
             }
           },
           "responses": {
-            "201": {
-              "description": "The record has been successfully created."
+            "204": {
+              "description": "Own user has been successfully updated."
             },
             "400": {
-              "description": "Sending incorrect data."
+              "description": "",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/Errored"
+                      },
+                      {
+                        "properties": {
+                          "errorMessages": {
+                            "type": "array",
+                            "items": {
+                              "$ref": "#/components/schemas/ErrorSwagger"
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
             },
             "401": {
               "description": "Not authorized."
@@ -144,14 +317,19 @@ window.onload = function() {
           },
           "tags": [
             "users"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
           ]
         },
         "delete": {
           "operationId": "UsersController_deleteCurrentUser",
           "parameters": [],
           "responses": {
-            "200": {
-              "description": "Current user has been successfully deleted"
+            "204": {
+              "description": "Own user has been successfully deleted"
             },
             "401": {
               "description": "Not authorized."
@@ -159,10 +337,15 @@ window.onload = function() {
           },
           "tags": [
             "users"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
           ]
         }
       },
-      "/users/{id}": {
+      "/users/friendship/{id}": {
         "post": {
           "operationId": "UsersController_createFriendship",
           "parameters": [
@@ -177,17 +360,22 @@ window.onload = function() {
           ],
           "responses": {
             "201": {
-              "description": "The record has been successfully created."
+              "description": "The friendship has been successfully created."
             },
             "401": {
               "description": "Not authorized."
             },
             "404": {
-              "description": "Not found or forbidden."
+              "description": "User for friendship Not found"
             }
           },
           "tags": [
             "users"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
           ]
         }
       },
@@ -207,17 +395,56 @@ window.onload = function() {
           },
           "responses": {
             "201": {
-              "description": "The record has been successfully created."
+              "description": "The comment has been successfully created.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ViewCommentModel"
+                  }
+                }
+              }
             },
             "400": {
-              "description": "Sending incorrect data."
+              "description": "",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/Errored"
+                      },
+                      {
+                        "properties": {
+                          "errorMessages": {
+                            "type": "array",
+                            "items": {
+                              "$ref": "#/components/schemas/ErrorSwagger"
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
             },
             "401": {
               "description": "Not authorized."
+            },
+            "403": {
+              "description": "Create comment for good deed of user, who not in your friend-list."
+            },
+            "404": {
+              "description": "Create comment for good deed which not found"
             }
           },
           "tags": [
             "comments"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
           ]
         }
       },
@@ -245,21 +472,50 @@ window.onload = function() {
             }
           },
           "responses": {
-            "201": {
-              "description": "The record has been successfully created."
+            "204": {
+              "description": "The comment has been successfully updated."
             },
             "400": {
-              "description": "Sending incorrect data."
+              "description": "",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/Errored"
+                      },
+                      {
+                        "properties": {
+                          "errorMessages": {
+                            "type": "array",
+                            "items": {
+                              "$ref": "#/components/schemas/ErrorSwagger"
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
             },
             "401": {
               "description": "Not authorized."
             },
+            "403": {
+              "description": "Not your comment"
+            },
             "404": {
-              "description": "Not found or forbidden."
+              "description": "Not found comment for update."
             }
           },
           "tags": [
             "comments"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
           ]
         },
         "delete": {
@@ -275,28 +531,55 @@ window.onload = function() {
             }
           ],
           "responses": {
-            "200": {
+            "204": {
               "description": "Comment has been successfully deleted"
             },
             "401": {
               "description": "Not authorized."
             },
+            "403": {
+              "description": "Not your comment."
+            },
             "404": {
-              "description": "Not found or forbidden."
+              "description": "Not found comment for delete."
             }
           },
           "tags": [
             "comments"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
           ]
         }
       },
       "/goodDeeds": {
         "get": {
           "operationId": "GoodDeedsController_findAllGoodDeedsForCurrentUser",
-          "parameters": [],
+          "parameters": [
+            {
+              "name": "pageNumber",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "default": "1",
+                "type": "string"
+              }
+            },
+            {
+              "name": "pageSize",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "default": "10",
+                "type": "string"
+              }
+            }
+          ],
           "responses": {
-            "201": {
-              "description": "The record has been successfully created."
+            "200": {
+              "description": "Get all own good deeds"
             },
             "401": {
               "description": "Not authorized."
@@ -304,6 +587,11 @@ window.onload = function() {
           },
           "tags": [
             "goodDeeds"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
           ]
         },
         "post": {
@@ -321,10 +609,38 @@ window.onload = function() {
           },
           "responses": {
             "201": {
-              "description": "The record has been successfully created."
+              "description": "Good deed has been successfully created.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ViewGoodDeedModel"
+                  }
+                }
+              }
             },
             "400": {
-              "description": "Sending incorrect data."
+              "description": "",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/Errored"
+                      },
+                      {
+                        "properties": {
+                          "errorMessages": {
+                            "type": "array",
+                            "items": {
+                              "$ref": "#/components/schemas/ErrorSwagger"
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
             },
             "401": {
               "description": "Not authorized."
@@ -332,10 +648,15 @@ window.onload = function() {
           },
           "tags": [
             "goodDeeds"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
           ]
         }
       },
-      "/goodDeeds/{id}": {
+      "/goodDeeds/{id}/user": {
         "get": {
           "operationId": "GoodDeedsController_findAllGoodDeedsByUserId",
           "parameters": [
@@ -346,23 +667,51 @@ window.onload = function() {
               "schema": {
                 "type": "string"
               }
+            },
+            {
+              "name": "pageNumber",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "default": "1",
+                "type": "string"
+              }
+            },
+            {
+              "name": "pageSize",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "default": "10",
+                "type": "string"
+              }
             }
           ],
           "responses": {
-            "201": {
-              "description": "The record has been successfully created."
+            "200": {
+              "description": "Get all good deeds other user if it user in your friend-list"
             },
             "401": {
               "description": "Not authorized."
             },
+            "403": {
+              "description": "This user not in your friend-list"
+            },
             "404": {
-              "description": "Not found or forbidden."
+              "description": "This user not found"
             }
           },
           "tags": [
             "goodDeeds"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
           ]
-        },
+        }
+      },
+      "/goodDeeds/{id}": {
         "put": {
           "operationId": "GoodDeedsController_updateGoodDeed",
           "parameters": [
@@ -386,21 +735,50 @@ window.onload = function() {
             }
           },
           "responses": {
-            "201": {
-              "description": "The record has been successfully created."
+            "204": {
+              "description": "Good deed has been successfully updated."
             },
             "400": {
-              "description": "Sending incorrect data."
+              "description": "",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/Errored"
+                      },
+                      {
+                        "properties": {
+                          "errorMessages": {
+                            "type": "array",
+                            "items": {
+                              "$ref": "#/components/schemas/ErrorSwagger"
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
             },
             "401": {
               "description": "Not authorized."
             },
+            "403": {
+              "description": "Good deed for update is not your"
+            },
             "404": {
-              "description": "Not found or forbidden."
+              "description": "Good deed for update is not found"
             }
           },
           "tags": [
             "goodDeeds"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
           ]
         },
         "delete": {
@@ -416,18 +794,26 @@ window.onload = function() {
             }
           ],
           "responses": {
-            "200": {
+            "204": {
               "description": "GoodDeed has been successfully deleted"
             },
             "401": {
               "description": "Not authorized."
             },
+            "403": {
+              "description": "Good deed for delete is not your"
+            },
             "404": {
-              "description": "Not found or forbidden."
+              "description": "Good deed for delete is not found"
             }
           },
           "tags": [
             "goodDeeds"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
           ]
         }
       },
@@ -436,12 +822,12 @@ window.onload = function() {
           "operationId": "AllDataController_delete",
           "parameters": [],
           "responses": {
-            "200": {
+            "204": {
               "description": "All data deleted"
             }
           },
           "tags": [
-            "clear data for testing"
+            "endpoints for testing"
           ]
         }
       }
@@ -461,13 +847,124 @@ window.onload = function() {
     "servers": [],
     "components": {
       "schemas": {
-        "RegistrationDto": {
+        "Errored": {
           "type": "object",
           "properties": {}
         },
+        "ErrorSwagger": {
+          "type": "object",
+          "properties": {
+            "field": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "field",
+            "message"
+          ]
+        },
+        "RegistrationDto": {
+          "type": "object",
+          "properties": {
+            "login": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 10,
+              "description": "user login"
+            },
+            "password": {
+              "type": "string",
+              "minLength": 6,
+              "maxLength": 20,
+              "description": "user password"
+            },
+            "email": {
+              "type": "string",
+              "pattern": "/^([\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$)/",
+              "description": "user email"
+            }
+          },
+          "required": [
+            "login",
+            "password",
+            "email"
+          ]
+        },
+        "ViewUserModel": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string"
+            },
+            "login": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "createdAt": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "_id",
+            "login",
+            "email",
+            "createdAt"
+          ]
+        },
         "RegistrationConfirmationDto": {
           "type": "object",
-          "properties": {}
+          "properties": {
+            "code": {
+              "type": "string",
+              "description": "confirmation code"
+            }
+          },
+          "required": [
+            "code"
+          ]
+        },
+        "AuthDto": {
+          "type": "object",
+          "properties": {
+            "loginOrEmail": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "loginOrEmail",
+            "password"
+          ]
+        },
+        "Paginated": {
+          "type": "object",
+          "properties": {
+            "totalCount": {
+              "type": "number"
+            },
+            "pagesCount": {
+              "type": "number"
+            },
+            "page": {
+              "type": "number"
+            },
+            "size": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "totalCount",
+            "pagesCount",
+            "page",
+            "size"
+          ]
         },
         "UpdateCurrentUserDto": {
           "type": "object",
@@ -475,19 +972,89 @@ window.onload = function() {
         },
         "CreateCommentDto": {
           "type": "object",
-          "properties": {}
+          "properties": {
+            "content": {
+              "type": "string"
+            },
+            "goodDeedId": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "content",
+            "goodDeedId"
+          ]
+        },
+        "ViewCommentModel": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string"
+            },
+            "content": {
+              "type": "string"
+            },
+            "createdAt": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "_id",
+            "content",
+            "createdAt"
+          ]
         },
         "UpdateCommentDto": {
           "type": "object",
-          "properties": {}
+          "properties": {
+            "content": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "content"
+          ]
         },
         "CreateGoodDeedDto": {
           "type": "object",
-          "properties": {}
+          "properties": {
+            "title": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "title"
+          ]
+        },
+        "ViewGoodDeedModel": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "createdAt": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "_id",
+            "title",
+            "createdAt"
+          ]
         },
         "UpdateGoodDeedDto": {
           "type": "object",
-          "properties": {}
+          "properties": {
+            "isDone": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "isDone"
+          ]
         }
       }
     }

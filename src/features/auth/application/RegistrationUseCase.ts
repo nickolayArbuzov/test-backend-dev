@@ -34,6 +34,9 @@ export class RegistrationUseCase {
       isActivated: false,
       code: code,
       createdAt: date.toISOString(),
+      accessTokenDate: 0,
+      refreshTokenDate: 0,
+      friends: [],
       rating: 0,
       isDeleted: false,
     }

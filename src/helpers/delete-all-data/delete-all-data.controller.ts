@@ -1,15 +1,16 @@
-import {Controller, Delete} from '@nestjs/common';
+import {Controller, Delete, HttpCode} from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import {AllDataService} from "./delete-all-data.service";
 
-@ApiTags('clear data for testing')
-@Controller('delete-all-data')
+@ApiTags('endpoints for testing')
+@Controller()
 export class AllDataController {
 
     constructor(private allDataService: AllDataService) {}
 
-    @Delete()
-    @ApiResponse({ status: 200, description: 'All data deleted' })
+    @Delete('delete-all-data')
+    @HttpCode(204)
+    @ApiResponse({ status: 204, description: 'All data deleted' })
     async delete(){
        await this.allDataService.deleteAllData()
     }
